@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <title></title>
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <script src="Javascript/SelectData.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="Javascript/animation2.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheets/style1.css" />
+        <link rel="stylesheet" type="text/css" href="stylesheets/frame1.css" />
+        <script src="Javascript/canvasjs.min.js" type="text/javascript"></script>
+        <script src="Javascript/GetDataFromFitbit.js" type="text/javascript"></script>
+        <script src="Javascript/jquery.js" type="text/javascript"></script>
+        <script src="Javascript/TextType2.js" type="text/javascript"></script>
+        <script src="Javascript/Draw.js" type="text/javascript"></script>
+        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+        <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+                 var images = ["redtalk.png", "bluetalk.png", "greentalk.png", "greytalk.png"];
+            var dot = ["red.png", "yellow.png", "green.png", "dark.png"];
+            var light = ["redlight.png", "yellowlight.png", "greenlight.png", "darklight.png"];
+            var config = {  
+                apiKey: "AIzaSyDfPpA-tOVf0R-Do0__OJB2NaNsiWUvFZQ",
+                authDomain: "watchmen-app.firebaseapp.com",
+                databaseURL: "https://watchmen-app.firebaseio.com",
+                projectId: "watchmen-app",
+                storageBucket: "watchmen-app.appspot.com",
+                messagingSenderId: "219494430164" 
+            }
+            firebase.initializeApp(config);
+
+        </script>
+        <style>
+            ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+            </style>
+        <link href="stylesheets/homestyle1.css" rel="stylesheet">
+        <script>
+            var flag = false;
+            var Xvalue;
+            var Yvalue;
+            var get = window.location.search.substring(1).split('&');
+            var param = new Object();
+            get.forEach((str) => {
+                var tmp = str.split('=');
+                param[tmp[0]] = tmp[1];
+            });
+            var getuser = param['key'];
+            var getimage = param['condition'];
+
+            var turnvalue = 0;
+            var resultdate;
+            var opendata;
+            var timedata;
+            var valuedata;
+            var contimedata;
+            var convaluedata;
+            var efficiency;
+        </script>  
+        <script>
+           /* var today = new Date();
+            var dd = today.getDate()+10;
+            var mm = today.getMonth(); //January is 0!
+            var yyyy = today.getFullYear();*/
+            var today = new Date();
+            var dd = "14";
+            var mm = "8"; //January is 0!
+            var yyyy = "2017";
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            function intital() {
+                today = yyyy + '-' + mm + '-' + dd;
+                console.log(today);
+                setheart();
+                $(inputdate).val(today);
+                SelectDataheart();
+            }
+            function act() {
+                today = yyyy + '-' + mm + '-' + dd;
+                console.log(today);
+                setAC();
+                $(inputdate).val(today);
+                SelectDataAC();
+            }
+            function sleep() {
+                today = yyyy + '-' + mm + '-' + dd;
+                setsleep();
+                $(inputdate).val(today);
+                SelectDatasleep();
+            }
+            function game() {
+                today = yyyy + '-' + mm + '-' + dd;
+                setgame();
+                $(inputdate).val(today);
+                SelectDataGame();
+            }
+
+            function message() {
+                var message = prompt("請輸入要跟司機說的話", "");
+
+                var table = "Massage";
+                var data1 = {
+                    user: getuser,
+                    table: table,
+                    message: message
+                };
+
+                $.ajax({
+                    type: "Get",
+                    url: "Message.jsp",
+                    data: data1,
+                    cache: false,
+                    success: function (data) {
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log("error");
+                        alert("error");
+                    }
+                });
+
+
+
+            }
+        </script>
+
+
+    </head>
+
+    <body onload="intital();
+            setTimeout(sleep, 5000);
+            setTimeout(act, 8000);
+            setTimeout(getdriver, 2000);
+            setTimeout(game, 12000)">
+        <div id="menu">
+
+
+            <ul >
+                <li><a  style="position: relative;margin-left: 660px;text-decoration:none ;color: inherit;" href="index.html">HOME</a></li>
+                <li style="position: relative;margin-left: 10px;" value="#contact">CONTACT</li>
+                <li style="position: relative;margin-left: 10px;" value="#heartrate">HEARTRATE</li>
+                <li style="position: relative;margin-left:10px;" value="#sleep">SLEEP</li>
+                <li style="position: relative;margin-left: 10px;" value="#game">TESTSCORE</li>
+                <li style="position: relative;margin-left: 10px;" value="#activity">ACTIVITY</li>
+            </ul>
+            <ul style="position: absolute;margin-left: 250px;">
+                <img id="dotcircle" style="height:70px;width:88px;position: absolute;top:0">
+                <li id="conditioncontext"style="margin-left:100px;"></li>
+            </ul>
+        </div>
+
+        <div id="contact">
+
+            <p  id="contacttitle" style="align-content:center">
+                C O N T A C T D R I V E R S
+                <img id="contactlogo" src="images/bluecar.png" style="margin-left:35px;margin-top:150px;" />
+            </p>
+            <div>
+                <a data="此按鈕可以強制此司機做專注力測驗，倒數１５分鐘假如司機沒有做測驗會強制把燈關掉" id="driverclick" href="javascript:"onclick="countdown()"><img id="driverpic" src="images/driver.png" style="margin-left:20%;margin-top:270px;" /></a>
+                <p id="demo" style="position: absolute;z-index: 3; left: 20.5%;top:110%;font-family: Microsoft JhengHei;font-size: 30px"></p>
+                <div style="margin-left:42%;margin-top:130px;position:absolute; z-index: 2;font-family: Microsoft JhengHei;color:white">
+                    <p id="drivername"></p>
+                    <p id="drivertime"></p>
+                    <p id="driverbirth"></p>
+                    <p id="drivernum"></p>
+                    <p id="driveremail"></p>
+                    <p id="driverhome"></p>
+                    <img id="turn" onclick="changepic();" src="images/on.png" style="width: 71px;height: 50px;margin-left:20%;margin-top:100px;" />
+                </div>
+
+
+                <img id="talkpic"  style="margin-left:28%;" />   
+
+                <img id="buspic" src="images/bus.png" style="margin-left:5%;margin-top:350px;" />
+
+                <img  src="images/chat.png" style="width: 71px;height: 50px;margin-left:18%;margin-top:390px;" />
+
+
+            </div>
+            <div style="margin-top:200px;">
+                <p style="margin-left:450px; font-family: Microsoft JhengHei;font-size: 2.5vh;">● 專注力分析<br><br><br></p>
+
+
+                <div>
+                    <img id="circle_alert" src="images/green.png" style="position:absolute;right:0%;margin-right:450px;margin-top:50px;" />
+                    <p style="position:absolute;right:0%;margin-right:350px; font-family: Microsoft JhengHei;font-size: 2.5vh;;margin-top:40px;">狀況良好</p><br>
+                    <img id="circle_alert" src="images/yellow.png" style="position:absolute;right:0%;margin-right:450px;margin-top:70px;" />
+                    <p style="position:absolute;right:0%;margin-right:350px; font-family: Microsoft JhengHei;font-size: 2.5vh;;margin-top:60px;">保持警戒</p><br>
+                    <img id="circle_alert" src="images/red.png" style="position:absolute;right:0%;margin-right:450px;margin-top:90px;" />
+                    <p style="position:absolute;right:0%;margin-right:350px; font-family: Microsoft JhengHei;font-size: 2.5vh;;margin-top:80px;">禁止開車</p>
+                    <div id="chartContainer7" style="margin-left:450px;height: 300px; width: 40%;" /></div>
+            </div>
+
+            <div style="position: absolute; left:15%;overflow:auto;height:40%;" id="statuslist">
+
+            </div>
+
+            <div style="position: absolute; left:60%;overflow:auto;height:40%;" id="worktime">
+
+</div>
+
+        </div>
+        <h1 style="color:#243f6f;font-family: Microsoft JhengHei;margin-left: 40%;margin-top: 20%">M e s s a g e <img src="images/mestitle.png"style="width: 138px;height: 97px;position: relative;margin-left: 70px;top:35px"></h1>
+
+        <div id ="mes"style="font-family: Microsoft JhengHei;border-width:5px;border-radius:10px;border-style:solid;border-color:#636363;padding:5px; left:30%;top:20%;height:500px;width:1000px;overflow: auto;margin-left: 20%; " >
+
+        </div>
+
+        <div  style="font-family: Microsoft JhengHei; margin-left: 20%;">
+            <img onclick="send()" value="SEND" src="images/sendmes.png"style="position: absolute;width:219px;height: 156px;margin-left: 48%;margin-top: 10px">
+            <img src="images/human.png"style="position: absolute;width: 126px;height: 88px;margin-top: 40px">
+
+            <br><br><br><br>
+            <labe style="font-family: Microsoft JhengHei;margin-left: 10%;" for="message">M e s s a g e:</label>
+
+                <input id="messagesend"style="width:500px"></input>
+
+
+        </div>           
+    </div>
+
+    <div id="heartrate"style="margin-top: 1000px" >
+        <p id="heartratetitle">
+            H E A R T R A T E
+            <img id="heartratelogo" src="images/heartrate.png" style="margin-left:35px; margin-top: 150px;" />
+        </p>
+        <p id="subtitle">
+            heartrate
+        </p>
+        <div id="heartrate_context">
+            <p>
+                <font face="monospace" style="margin-left:35%;">Date:</font>
+                <input id="heartdate" value=" EX: 2017-04-30 " style="color: #AAAAAA;" onfocus="if (this.value == ' EX: 2017-04-30 ') {
+                            this.value = '';
+                            this.style.color = '#333333'
+                        }"onblur="if (this.value == '') {
+                                    this.value = ' EX: 2017-04-30 ';
+                                    this.style.color = '#AAAAAA'
+                                }">
+                <input type="button" id="sub2" value="Submit"onclick="setheart();
+                        SelectDataheart()" >
+                <input type="button"  value="Demo"onclick="setheart();UpdateDB();" >
+                <input type="button"  value="同步" style="margin-left: 50px">
+            <ul class="menu" style="margin-left:35px;">
+
+                <li>
+                    <a id="head" style="color:rgb(36, 63, 111)"><img id="heartrate_image" style="margin-left:5px;margin-top:5px;" src="images/history.png" /> HISTORY</a>
+                    <ul class="submenu">
+                        <li onclick="setheart();
+                                setweek();
+                                SelectMoreDataheart();
+                            "  value="7"><a>WEEK </a></li>
+                        <li onclick=" setheart();
+                                setmonth();
+                                SelectMoreDataheart();"  value="30"><a>MONTH</a></li>
+                    </ul>
+                </li>
+            </ul>
+            </p>
+            <div>
+                <p id="heartvalue"style="margin-left: 380px;margin-top:145px;"></p>
+                <img id="heartcircle"style="margin-left: 300px;margin-top: 60px;" src="images/heartcircle.png" />
+
+
+
+                <div id="chartContainer1" style="height: 300px; width: 40%; margin-right: 150px; float:right;">
+                    <div id="Heartloading"style="display:none"  >
+                        <div class="k-letter-holder">
+                            <div class="k-letter-1b k-letter">L</div>
+                            <div class="k-letter-2b k-letter">o</div>
+                            <div class="k-letter-3b k-letter">a</div>
+                            <div class="k-letter-4b k-letter">d</div>
+                            <div class="k-letter-5b k-letter">i</div>
+                            <div class="k-letter-6b k-letter">n</div>
+                            <div class="k-letter-7b k-letter">g</div>
+                            <div class="k-letter-8b k-letter">.</div>
+                            <div class="k-letter-9b k-letter">.</div>
+                            <div class="k-letter-10b k-letter">.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sleep">
+        <p id="sleeptitle">
+            S L E E P
+            <img id="sleeplogo" src="images/sleep.png" style="margin-left:35px;margin-top: 150px;" />
+        </p>
+        <p id="subtitle">
+            sleep
+        </p>
+        <div id="heartrate_context">
+            <p>
+                <font face="monospace" style="margin-left:35%;">Date:</font>
+                <input id="date" value=" EX: 2017-04-30 " style="color: #AAAAAA;" onfocus="if (this.value == ' EX: 2017-04-30 ') {
+                            this.value = '';
+                            this.style.color = '#333333'
+                        }"onblur="if (this.value == '') {
+                                    this.value = ' EX: 2017-04-30 ';
+                                    this.style.color = '#AAAAAA'
+                                }">
+                <input type="button" id="sub2" value="Submit"onclick="setsleep();
+                        SelectDatasleep()" >
+                <input type="button"  value="Demo"onclick="setsleep();
+                        UpdateDB();
+                        setTimeout(setSummary, 1000);
+                        setTimeout(UpdateDB, 1000);" >
+                <input type="button"  value="同步" style="margin-left: 50px">
+            <ul class="menu" style="margin-left:35px;">
+
+                <li>
+                    <a id="head" style="color:rgb(36, 63, 111)"><img id="heartrate_image" style="margin-left:5px;" src="images/history.png" /> HISTORY</a>
+                    <ul class="submenu">
+                        <li onclick="setsleep();
+                                setweek();
+                                SelectMoreDatasleep();
+                                SelectMoreDatasleep2();
+                            "  value="7"><a>WEEK </a></li>
+                        <li onclick=" setsleep();
+                                setmonth();
+                                SelectMoreDatasleep();
+                                SelectMoreDatasleep2();"  value="30"><a>MONTH</a></li>
+                    </ul>
+                </li>
+            </ul>
+            </p>
+            <div>
+                <p id="sleepvalue"style="margin-left: 380px;margin-top:145px;"></p>
+                <img id="heartcircle"style="margin-left: 300px;margin-top: 60px;" src="images/heartcircle.png" />
+                <div id="chartContainer2" style="height: 300px; width: 40%; margin-right: 150px; float:right;"></div>
+                <br>
+                <div id="chartContainer3" style="height: 300px; width: 30%; margin-left: 180px;margin-top:100px;float:left;"></div>
+                <div id="chartContainer4" style="height: 300px; width: 30%; margin-right: 180px;margin-top:100px; float:right;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="game"style="    margin-top: 500px;">
+        <p id="gametitle">
+            T E S T S C O R E
+            <img id="gamelogo" src="images/game.png" style="margin-left:35px;margin-top: 150px;" />
+        </p>
+        <p id="subtitle">
+            專注力測驗
+        </p>
+        <div id="heartrate_context">
+            <p>
+                <font face="monospace" style="margin-left:35%;">Date:</font>
+                <input id="gamedate" value=" EX: 2017-04-30 " style="color: #AAAAAA;" onfocus="if (this.value == ' EX: 2017-04-30 ') {
+                            this.value = '';
+                            this.style.color = '#333333'
+                        }"
+                       onblur="if (this.value == '') {
+                                   this.value = ' EX: 2017-04-30 ';
+                                   this.style.color = '#AAAAAA'
+                               }">
+                <input type="button" id="sub2" value="Submit"onclick="setgame(); SelectDataGame()" >
+            <ul class="menu" style="margin-left:35px;">
+
+                <li>
+                    <a id="head" style="color:rgb(36, 63, 111)"><img id="heartrate_image" style="margin-left:5px;" src="images/history.png" /> HISTORY</a>
+                    <ul class="submenu">
+                        <li  onclick="setgame();
+                                setweek();
+                                SelectMoreGame();
+                             " value="7"><a>WEEK </a></li>
+                        <li  onclick="setgame();
+                                setmonth();
+                                SelectMoreGame();
+                             " value="30"><a>MONTH</a></li>
+                    </ul>
+                </li> 
+            </ul>
+            </p>
+            <div>
+                <p style="margin-left:450px; font-family: Microsoft JhengHei;font-size: 2.5vh;">● 遊戲分數<br><br><br></p>
+                <div id="chartContainer6" style="margin-left:450px; height: 300px; width: 40%;" />
+
+
+            </div>
+            <div style="margin-left:450px; height: 300px; width: 40%; font-size: 20px" />
+
+
+
+            <li type="square">0~0.5 : 精神狀況很好</li>
+            <li type="square">0.5~1.0 : 精神狀況一般</li>
+            <li type="square">1.0以上 : 精神狀況很差</li>
+        </div>
+
+    </div>
+
+</div>
+</div>
+<div id="activity"  >
+    <div id="activitytitle">
+        A C T I V I T Y
+        <img id="activitylogo" src="images/activity.png" style="position:relative;top: 50px;left:10px;margin-top:50px" />
+    </div>
+    <p id="subtitle">
+        activity
+    </p>
+    <div id="activity_context">
+        <p>
+            <font face="monospace" style="margin-left:35%;">Date:</font>
+            <input id="ACdate" value=" EX: 2017-04-30 " style="color: #AAAAAA;" onfocus="if (this.value == ' EX: 2017-04-30 ') {
+                        this.value = '';
+                        this.style.color = '#333333'
+                    }"onblur="if (this.value == '') {
+                                this.value = ' EX: 2017-04-30 ';
+                                this.style.color = '#AAAAAA'
+                            }">
+            <input type="button" id="sub2" value="Submit"onclick="setAC();
+                    SelectDataAC()" >
+            <input type="button"  value="Demo"onclick="setAC();
+                    UpdateDB();" >
+
+            <input type="button"  value="同步" style="margin-left: 50px">
+        <ul class="menu" style="margin-left:35px;">
+
+            <li>
+                <a id="head" style="color:rgb(36, 63, 111)"><img id="heartrate_image" style="margin-left:5px;margin-top:5px;" src="images/history.png" /> HISTORY</a>
+                <ul class="submenu">
+                    <li onclick="setAC();
+                            setweek();
+                            SelectDataMoreAC();
+                        "  value="7"><a>WEEK </a></li>
+                    <li onclick=" setAC();
+                            setmonth();
+                            SelectDataMoreAC();"  value="30"><a>MONTH</a></li>
+                </ul>
+            </li>
+        </ul>
+        </p>
+        <div>
+
+            <p id="activityvalue"style="margin-left: 380px;margin-top:145px;"></p>
+            <img id="activitycircle"style="margin-left: 300px;margin-top: 60px;" src="images/heartcircle.png" />
+
+
+
+            <div id="chartContainer5" style="height: 300px; width: 40%; margin-right: 150px; float:right;"></div>
+
+        </div>
+
+    </div>
+
+    <div id="gomap"style="height:1000px;border-width:5px;border-radius:10px;border-style:solid;border-color:#636363">
+    </div>
+</div>
+<script>
+
+// This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+
+    function initMap() {
+        var uluru = {lat: parseFloat(Xvalue), lng: parseFloat(Yvalue)};
+        var map = new google.maps.Map(document.getElementById('gomap'), {
+            zoom: 18,
+            center: uluru
+        });
+
+        var contentString = '司機目前位置';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+            title: 'Uluru (Ayers Rock)'
+        });
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+    }
+</script>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPOH9TfkZLAkPxuqjiqIl6RgJkzeE_syg&callback=initMap"
+async defer></script>
+</body>
+<script>
+
+    if (getimage == 0) {
+        document.getElementById("dotcircle").src = "images/" + light[3];
+        document.getElementById("talkpic").src = "images/" + images[3];
+        document.getElementById("conditioncontext").innerHTML = " 關 閉";
+        turnvalue = 1;
+        document.getElementById("turn").src = "images/off.png";
+        changepic();
+    } else {
+        if (getimage - 1 == 1) {
+            document.getElementById("dotcircle").style.width = "88px";
+            document.getElementById("dotcircle").style.height = "70px";
+        } else {
+            document.getElementById("dotcircle").style.width = "155px";
+            document.getElementById("dotcircle").style.height = "110px";
+            document.getElementById("dotcircle").style.left = "-5px";
+            document.getElementById("dotcircle").style.top = "-15px";
+        }
+        document.getElementById("dotcircle").src = "images/" + light[getimage - 1];
+        document.getElementById("talkpic").src = "images/" + images[getimage - 1];
+    }
+    if (getimage == 1) {
+        document.getElementById("conditioncontext").innerHTML = " 禁止開車";
+    }
+    if (getimage == 2) {
+        document.getElementById("conditioncontext").innerHTML = " 保持警戒";
+    }
+    if (getimage == 3) {
+        document.getElementById("conditioncontext").innerHTML = " 狀況良好";
+    }
+    function getdriver() {
+        if (getuser == "YZUACCHC17@gmail.com") {
+            document.getElementById("drivername").innerHTML = "司機名稱:翁府廉";
+            document.getElementById("drivertime").innerHTML = "入值時間:1999/11/25";
+            document.getElementById("driverbirth").innerHTML = "生日:1979/08/05";
+            document.getElementById("drivernum").innerHTML = "手機:09123456789";
+            document.getElementById("driveremail").innerHTML = "EMAIL:YZUACCHC17@gmail.com";
+            document.getElementById("driverhome").innerHTML = "住址:元智大學";
+        } else if (getuser == "yzufitbittest16@gmail.com") {
+            document.getElementById("drivername").innerHTML = "司機名稱:楊若函";
+            document.getElementById("drivertime").innerHTML = "入值時間:1996/02/15";
+            document.getElementById("driverbirth").innerHTML = "生日: 1977/08/04";
+            document.getElementById("drivernum").innerHTML = "手機: 09123456789";
+            document.getElementById("driveremail").innerHTML = "EMAIL: yzufitbittest16@gmail.com";
+            document.getElementById("driverhome").innerHTML = "住址: 元智大學";
+        } else if (getuser == "gftest@gmail.com") {
+            document.getElementById("drivername").innerHTML = "司機名稱: 呂昕恩";
+            document.getElementById("drivertime").innerHTML = "入值時間: 1996/04/07";
+            document.getElementById("driverbirth").innerHTML = "生日: 1975/04/10";
+            document.getElementById("drivernum").innerHTML = "手機: 09123456789";
+            document.getElementById("driveremail").innerHTML = "EMAIL: gftest@gmail.com";
+            document.getElementById("driverhome").innerHTML = "住址: 元智大學";
+        } else if (getuser == "yzufitbittest18@outlook.com") {
+            document.getElementById("drivername").innerHTML = "司機名稱: 江宇翎";
+            document.getElementById("drivertime").innerHTML = "入值時間: 1993/02/12";
+            document.getElementById("driverbirth").innerHTML = "生日: 1975/04/19";
+            document.getElementById("drivernum").innerHTML = "手機: 0912452789";
+            document.getElementById("driveremail").innerHTML = "EMAIL: yzufitbittest18@outlook.com";
+            document.getElementById("driverhome").innerHTML = "住址: 元智大學";
+        } else if (getuser == "yzufitbittest10@gmail.com") {
+            document.getElementById("drivername").innerHTML = "司機名稱: 王曉明";
+            document.getElementById("drivertime").innerHTML = "入值時間: 1991/01/22";
+            document.getElementById("driverbirth").innerHTML = "生日: 1972/03/15";
+            document.getElementById("drivernum").innerHTML = "手機: 09135456789";
+            document.getElementById("driveremail").innerHTML = "EMAIL: yzufitbittest10@gmail.com";
+            document.getElementById("driverhome").innerHTML = "住址: 元智大學";
+        } else if (getuser == "yzufitbittest12@outlook.com") {
+            document.getElementById("drivername").innerHTML = "司機名稱: 張曉華";
+            document.getElementById("drivertime").innerHTML = "入值時間: 1996/05/18";
+            document.getElementById("driverbirth").innerHTML = "生日: 1975/12/21";
+            document.getElementById("drivernum").innerHTML = "手機: 09221456259";
+            document.getElementById("driveremail").innerHTML = "EMAIL: yzufitbittest12@outlook.com";
+            document.getElementById("driverhome").innerHTML = "住址: 元智大學";
+        }
+
+    }
+</script>
+<script>
+    var x;
+    // Set the date we're counting down to
+    function countdown() {
+        sendalert();
+        document.getElementById('driverclick').onclick = null;
+        var currentDate = new Date();
+        var countDownDate = new Date(currentDate.getTime() + (15 * 60 * 1000));
+       
+        var distance;
+        // Update the count down every 1 second
+        x = setInterval(function () {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now an the count down date
+            distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Output the result in an element with id="demo"
+
+            if (distance > 0) {
+                document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+            }
+
+            // If the count down is over, write some text 
+            if (distance < 0) {
+                document.getElementById("demo").innerHTML = "關 燈 !"
+                clearInterval(x);
+                changepic();
+                document.getElementById('driverclick').onclick = countdown;
+            }
+        }, 1000);
+
+    }
+
+</script>
+
+<script>
+    var messageDBAlert = firebase.database().ref(`alert`);
+    var sendalert = () => {
+        messageDBAlert
+                .once('value')
+                .then(snapshot => {
+                    messageDBAlert.set({
+                        user: getuser,
+                        trigger: true,
+                        isTest:false
+                    });
+                });
+    };
+    messageDBAlert
+            .on('value',
+                    (snapshot) => {
+                var jsonstring2 = JSON.stringify(snapshot);
+                var jsonobject2 = JSON.parse(jsonstring2);
+
+                console.log("New: " + jsonobject2.isTest);
+                Test = jsonobject2.isTest;
+                 
+                if (Test == true) {
+                    console.log("stop");
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = " ";
+                    
+                    turnvalue = 1;
+                    
+                    document.getElementById('driverclick').onclick = countdown;
+                }
+                if(Test==false){
+                    turnvalue = 1;
+                    console.log("false go");
+                    //changepic();
+                }
+            });
+</script>
+<script>
+
+    var user = getuser;
+    var GPS = firebase.database().ref('DrivingInfo');
+ var sendGPS = () => {
+        GPS
+                .once('value')
+                .then(snapshot => {
+                    count++;
+                    GPS.set({
+                        PositionX:"24.972154" ,
+                        PositionY:"121.264152"
+                    });
+                });
+
+    };
+
+
+    GPS
+            .on('value',
+                    (snapshot) => {
+                var jsonstring = JSON.stringify(snapshot);
+                var jsonobject = JSON.parse(jsonstring);
+                Xvalue = jsonobject.PositionX;
+                Yvalue = jsonobject.PositionY;
+                initMap();
+                console.log("New: " + JSON.stringify(snapshot));
+
+
+
+            });
+</script>
+
+
+
+
+
+
+<script>
+    var count = 0;
+    var user = getuser;
+    var messageDB = firebase.database().ref('message');
+    var send = () => {
+        messageDB
+                .once('value')
+                .then(snapshot => {
+                    messageDB.set({
+                        content: document.getElementById('messagesend').value,
+
+                        time: Date.now(),
+                        user: `Manager`
+                    });
+                });
+
+    };
+
+    messageDB
+            .on('value',
+                    (snapshot) => {
+                         
+                var jsonstring = JSON.stringify(snapshot);
+                var jsonobject = JSON.parse(jsonstring);
+                if (count != 0) {
+                    document.getElementById('mes').innerHTML += "<br>";
+                    document.getElementById('mes').innerHTML += jsonobject.user + ":" + jsonobject.content;
+                    console.log("New: " + JSON.stringify(snapshot));
+                    document.getElementById('messagesend').value = null;
+                }
+                count++;
+            });
+</script>
+<script>
+    function changepic() {
+        console.log("go");
+        if (turnvalue == 0) {
+            var datastatus = {
+                user: getuser,
+                status: "0"
+            };
+
+            $.ajax({
+                type: "Get",
+                url: "Status.jsp",
+                data: datastatus,
+                cache: false,
+                success: function (data) {
+                    console.log("insert success");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log("error");
+                    alert("error");
+                }
+            });
+            document.getElementById("talkpic").src = "images/" + images[3];
+            document.getElementById("turn").src = "images/off.png";
+            turnvalue = 1;
+            document.getElementById("dotcircle").src = "images/" + light[3];
+            
+            document.getElementById("conditioncontext").innerHTML = " 關 閉";
+
+        } else if (turnvalue == 1) {
+            var st = {
+                user: getuser,
+
+            };
+
+            $.ajax({
+                type: "Get",
+                url: "UserStatus.jsp",
+                data: st,
+                cache: false,
+                success: function (data) {
+                    opendata = jQuery.trim(data).split("?");
+                    for (var i = 0; i < 1; i++) {
+                        opendata[0] = jQuery.trim(opendata[0]);
+                    }
+                    console.log(opendata[0]);
+                    if (opendata[0] == 0) {
+                        document.getElementById("dotcircle").src = "images/" + light[3];
+                        document.getElementById("talkpic").src = "images/" + images[3];
+                        document.getElementById("turn").src = "images/off.png";
+                        turnvalue = 1;
+                    } else {
+                        console.log(opendata[0]);
+                        if (opendata[0] - 1 == 1||opendata[0] - 1 == 1) {
+                            document.getElementById("dotcircle").style.width = "88px";
+                            document.getElementById("dotcircle").style.height = "70px";
+                        } else {
+                            document.getElementById("dotcircle").style.width = "155px";
+                            document.getElementById("dotcircle").style.height = "110px";
+                        }
+                        document.getElementById("dotcircle").src = "images/" + light[ opendata[0] - 1];
+                        document.getElementById("talkpic").src = "images/" + images[ opendata[0] - 1];
+                        document.getElementById("turn").src = "images/on.png";
+                        turnvalue = 0;
+                    }
+                    if (opendata[0] == 0) {
+                        document.getElementById("conditioncontext").innerHTML = " 關 閉";
+                    }
+                    if (opendata[0] == 1) {
+                        document.getElementById("conditioncontext").innerHTML = " 禁止開車";
+                    }
+                    if (opendata[0] == 2) {
+                        document.getElementById("conditioncontext").innerHTML = " 保持警戒";
+                    }
+                    if (opendata[0] == 3) {
+                        document.getElementById("conditioncontext").innerHTML = " 狀況良好";
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log("error");
+                    alert("error");
+                }
+            });
+
+
+
+
+        }
+    }
+    $('#messagesend').keydown(function () {
+        if (event.keyCode == 13) {
+            send();
+        }
+    });
+
+</script>
+
+</html>

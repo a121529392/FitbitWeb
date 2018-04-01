@@ -1,0 +1,205 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2017/4/12, 上午 12:40:44
+    Author     : Yang
+*/
+﻿body {
+  background-color: rgb(226, 226, 226);
+  height:8000px;
+}
+#logo {
+  color: rgb(60, 60, 60);
+  font-family: Microsoft JhengHei;
+  font-size: 30px;
+  padding-top: 100px;
+  height: 200px;
+  text-align: center;
+}
+
+
+#logopic {
+
+  height:391px;
+  width:298px;
+
+}
+#about {
+  position:relative;
+  margin-top: 500px;
+  height: 800px;
+  text-align: center;
+}
+
+#aboutlogo {
+
+  height:136px;
+  width:205px;
+
+}
+
+#box {
+  margin-left: 10%;
+  color: rgb(36, 63, 111);
+  font-family: Microsoft JhengHei;
+  font-size: 5vh;
+  padding-top: 150px;
+  text-align: center;
+}
+
+#circlepos {
+  float: right;
+}
+
+#circle {
+  -moz-border-radius: 75px;
+  -webkit-border-radius: 75px;
+  border-radius: 75px;
+  float: right;
+  margin-right: 75px;
+  border-color: rgb(36, 63, 111);
+  border-style: solid;
+  width: 150px;
+  height: 150px;
+}
+
+#context {
+  float: left;
+  color: rgb(60, 60, 60);
+  font-family: Microsoft JhengHei;
+  padding-top: 2%;
+  margin-left: 5%;
+  text-align: left;
+  font-size: 4vh;
+}
+#sign{
+  margin-top: 200px;
+  height:1000px;
+}
+#road {
+  margin-top: 100px;
+  height: 892px;
+  width:1244px;
+  float: right;
+
+}
+#pic{
+  height:1000px;
+  position: relative;
+}
+
+#sign1{
+  height:385px; 
+  width:214px;
+  margin-top: 290px;
+  position:absolute;
+  left:2%; 
+  z-index: 2;
+}
+
+#sign2{
+  height:405px;
+  width:218px;
+  margin-top: 430px;
+  position:absolute;
+  left:32%;
+  z-index: 2;
+}
+
+#sign3{
+  height:339px; 
+  width:232px;
+  margin-top: 330px;
+  position:absolute;
+  left:79%;
+  z-index: 2;
+}
+
+#orangecar{
+  height:159px; 
+  width:130px;
+  margin-top: 180px;
+  position:absolute;
+  left:64.3%;
+  z-index: 2;
+}
+
+#greenbus{
+  height:172px;
+  width:292px;
+  margin-top: 740px;
+  position:absolute;
+  left:47%;
+  z-index: 2;
+}
+
+#menu > ul > li {
+  margin: 3vh;
+  color: rgb(60, 60, 60);
+  text-decoration: none;
+  font-family: Microsoft JhengHei;
+  font-size: 3vh;
+  display: inline;
+  cursor: pointer;
+}
+
+#menu > ul {
+  text-decoration: none;
+  float: right;
+  padding: 25px;
+}
+#menu {
+  background-color: rgb(226, 226, 226);
+
+  position: fixed;
+  height: 100px;
+  width:100%;
+  top:0;
+  z-index: 3;
+
+}
+
+#logopic1{
+    width: 209px;
+    height:274px;
+}
+#profilepic{
+    width: 97px;
+    height:97px;
+}
+#line {
+    float:left;
+    margin-top: 100px;
+    border-top : 0px solid #949494 ; 
+    border-bottom : 0px solid #949494 ; 
+    border-left : 0px solid #949494; 
+    border-right : 2px solid #949494 ;
+} 
+#red{
+    width:10px;
+    height:10px;
+    position: absolute;
+    z-index: 2;
+}
+
+#yellow{
+    width:10px;
+    height:10px;
+    position: absolute;
+    z-index: 2;
+}
+#green{
+    width:10px;
+    height:10px;
+    position: absolute;
+    z-index: 2;
+}
+#dark{
+    width:10px;
+    height:10px;
+    position: absolute;
+    z-index: 2;
+}

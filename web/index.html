@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="Javascript/jquery.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheets/indexStyle.css" />
+        <script src="Javascript/newSelectData.js" type="text/javascript"></script>
+
+        <script src="Javascript/animation.js"></script>
+    </head>
+    <style>
+        #test1 {
+
+            color: #900;
+            text-decoration: none;
+        }
+
+        #test1:hover {
+            color: red;
+        }
+
+        #test1[data]:hover:after {
+
+            content: attr(data);
+            width: 200px;
+            font-size: 150%;
+            font-weight:bold;
+            padding: 4px 8px;
+            color: rgb(36, 63, 111);
+            position: absolute;
+            margin-left: 35px;
+            margin-top: 450px;
+            white-space: normal;
+            z-index: 3;
+            border-radius: 10px ;
+            background: rgba(255,255,255,0.5);
+        }
+        #test2 {
+
+            color: #900;
+            text-decoration: none;
+        }
+
+        #test2:hover {
+            color: red;
+        }
+
+        #test2[data]:hover:after {
+
+            content: attr(data);
+            width: 200px;
+            font-size: 150%;
+            font-weight:bold;
+            padding: 4px 8px;
+            color: rgb(36, 63, 111);
+            position: absolute;
+            left: 32%;
+            margin-top: 600px;
+            white-space: normal;
+            z-index: 3;
+            border-radius: 10px ;
+            background: rgba(255,255,255,0.7);
+        }
+        #test3 {
+
+            color: #900;
+            text-decoration: none;
+        }
+
+        #test3:hover {
+            color: red;
+        }
+
+        #test3[data]:hover:after {
+
+            content: attr(data);
+            width: 210px;
+            font-size: 150%;
+            font-weight:bold;
+            padding: 4px 8px;
+            color: rgb(36, 63, 111);
+            position: absolute;
+            left:79%;
+            margin-top: 440px;
+            white-space: normal;
+            z-index: 3;
+            border-radius: 10px ;
+            background: rgba(255,255,255,0.7);
+        }
+    </style>
+    <script>
+        var userdata = "";
+        var namedata = ["呂昕恩", "楊若函", "翁府廉", "江宇翎", "王曉明", "張曉華"];
+        var emaildata = ["gftest@gmail.com", "yzufitbittest16@gmail.com", "YZUACCHC17@gmail.com", "yzufitbittest18@outlook.com", "yzufitbittest10@gmail.com", "yzufitbittest12@outlook.com"];
+        var statedata = "";
+        var r = 0;
+        var y = 0;
+        var g = 0;
+        var i = 0;
+        var gy=0;
+        var num = [0, 1, 2, 3, 4];
+        var reduser = [];
+        var redstate = [];
+        var yellowuser = [];
+        var yellowstate = [];
+        var greenuser = [];
+        var greenstate = [];
+        $(function () {
+            $("#dialog_div").dialog({
+                autoOpen: false,
+                show: "blind",
+                hide: "explode",
+                buttons: {
+                    "Ok": function () {
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            $("#opener").click(function () {
+                $("#dialog_div").dialog("open");
+                return false;
+            });
+        });
+        function SelectCon() {
+            console.log("hi");
+            var table = "driver_status";
+            var data1 = {
+                table: table
+            };
+
+            $.ajax({
+                type: "Get",
+                url: "GetDriverState.jsp",
+                data: data1,
+                cache: false,
+                success: function (data) {
+                    console.log("222");
+                    let Alldata = jQuery.trim(data).split("?");
+                    let userdata = jQuery.trim(Alldata[0]).split("\n");
+                    let statedata = jQuery.trim(Alldata[1]).split("\n");
+                    reduser = [];
+                    redstate = [];
+                    yellowuser = [];
+                    yellowstate = [];
+                    greenuser = [];
+                    greenstate = [];
+                    greyuser = [];
+                    greystate = [];
+                    console.log(statedata.length);
+                    i = 0;
+                    r=0;
+                    g=0;
+                    y=0;
+                    gy=0;
+                    for (var q = 0; q < 5; q++) {
+                        document.getElementsByClassName('red' + q)[0].style.visibility = "hidden";
+                        document.getElementsByClassName('red' + q)[1].style.visibility = "hidden";
+                        document.getElementsByClassName('red' +  q)[2].style.visibility = "hidden";
+                        document.getElementsByClassName('yellow' +  q)[0].style.visibility = "hidden";
+                        document.getElementsByClassName('yellow' +  q)[1].style.visibility = "hidden";
+                        document.getElementsByClassName('yellow' +  q)[2].style.visibility = "hidden";
+                        document.getElementsByClassName('green' +  q)[0].style.visibility = "hidden";
+                        document.getElementsByClassName('green' +  q)[1].style.visibility = "hidden";
+                        document.getElementsByClassName('green' +  q)[2].style.visibility = "hidden";
+                        document.getElementsByClassName('dark' +  q)[0].style.visibility = "hidden";
+                        document.getElementsByClassName('dark' +  q)[1].style.visibility = "hidden";
+                        document.getElementsByClassName('dark' +  q)[2].style.visibility = "hidden";
+                    }
+                    if (reduser.length > 0) {
+                        for (var red = 0; red < reduser.length; red++) {
+                            reduser.pop();
+                            redstate.pop();
+                        }
+                    }
+                    if (greenuser.length > 0) {
+                        for (var green = 0; green < greenuser.length; green++) {
+                            greenuser.pop();
+                            greenstate.pop();
+                        }
+                    }
+                    if (yellowuser.length > 0) {
+                        for (var yellow = 0; yellow < yellowuser.length; yellow++) {
+                            yellowuser.pop();
+                            yellowstate.pop();
+                        }
+                    }
+                    if (greyuser.length > 0) {
+                        for (var grey = 0; grey < greyuser.length; grey++) {
+                            greyuser.pop();
+                            greystate.pop();
+                        }
+                    }                    
+                    if (statedata.length > 1) {
+                        for (; i < statedata.length; ) {
+                            userdata[i] = jQuery.trim(userdata[i]);
+                            statedata[i] = jQuery.trim(statedata[i]);
+                            if (statedata[i] == 1) {
+                                reduser.push(userdata[i]);
+                                redstate.push(statedata[i]);
+                                document.getElementsByClassName('red' + r)[0].style.visibility = "visible";
+                                document.getElementsByClassName('red' + r)[1].style.visibility = "visible";
+                                document.getElementsByClassName('red' + r)[2].style.visibility = "visible";
+                                for (var n = 0; n < emaildata.length; n++) {
+                                    if (userdata[i] == emaildata[n]) {
+                                        document.getElementById('redname' + r).innerHTML = namedata[n];
+                                    }
+                                }
+                                console.log("red");
+
+                                r++;
+                            } else if (statedata[i] == 2) {
+                                yellowuser.push(userdata[i]);
+                                yellowstate.push(statedata[i]);
+
+
+                                document.getElementsByClassName('yellow' + y)[0].style.visibility = "visible";
+                                document.getElementsByClassName('yellow' + y)[1].style.visibility = "visible";
+                                document.getElementsByClassName('yellow' + y)[2].style.visibility = "visible";
+                                for (var n = 0; n < emaildata.length; n++) {
+                                    if (userdata[i] == emaildata[n]) {
+                                        document.getElementById('yellowname' + y).innerHTML = namedata[n];
+                                    }
+                                }
+
+
+
+                                y++;
+                            } else if (statedata[i] == 0) {
+                                greyuser.push(userdata[i]);
+                                greystate.push(statedata[i]);
+
+
+                                document.getElementsByClassName('dark' + gy)[0].style.visibility = "visible";
+                                document.getElementsByClassName('dark' + gy)[1].style.visibility = "visible";
+                                document.getElementsByClassName('dark' + gy)[2].style.visibility = "visible";
+                                
+                                for (var n = 0; n < emaildata.length; n++) {
+                                    if (userdata[i] == emaildata[n]) {
+                                        console.log("grey"+gy);
+                                        document.getElementById('darkname' +gy ).innerHTML = namedata[n];
+                                    }
+                                }
+
+
+
+                                gy++;
+                            } else if (statedata[i] == 3) {
+                                greenuser.push(userdata[i]);
+                                greenstate.push(statedata[i]);
+                                document.getElementsByClassName('green' + g)[0].style.visibility = "visible";
+                                document.getElementsByClassName('green' + g)[1].style.visibility = "visible";
+                                document.getElementsByClassName('green' + g)[2].style.visibility = "visible";
+                                for (var n = 0; n < emaildata.length; n++) {
+                                    if (userdata[i] == emaildata[n]) {
+                                        document.getElementById('greenname' + g).innerHTML = namedata[n];
+                                    }
+                                }
+                                console.log("green");
+                                g++;
+                            }
+                            i++;
+                        }
+
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log("error");
+                    
+                }
+            });
+
+        }
+        function redhtml(num) {
+
+            location.href = "home.html" + '?key=' + reduser[num] + '&condition=' + redstate[num];
+            return false;
+
+        }
+                function greyhtml(num) {
+
+            location.href = "home.html" + '?key=' + greyuser[num] + '&condition=' + greystate[num];
+            return false;
+
+        }
+        function yellowhtml(num) {
+
+            location.href = "home.html" + '?key=' + yellowuser[num] + '&condition=' + yellowstate[num];
+            return false;
+
+        }
+        function greenhtml(num) {
+
+            location.href = "home.html" + '?key=' + greenuser[num] + '&condition=' + greenstate[num];
+            return false;
+
+        }
+
+    </script>
+    <script>
+        function purpose() {
+            document.getElementById("context").innerHTML = "疲勞駕駛乃當今社會一大安全隱憂，在台灣有超過三分之一<br>重大交通事故是由於駕駛員疲勞引起的，每年高達數千億元<br>損失。台灣身為一個公路發達，高度依賴公路運輸的社會，<br>卻始終缺乏一套管理旗下員工精神狀態的系統，以量化的數<br>據了進行判斷，導致社會身陷在疲勞駕駛的隱憂。因此本團<br>隊有了設計「雲端疲勞監控系統」這樣一個想法。";
+        }
+        function create() {
+            document.getElementById("context").innerHTML = "本團隊創意發想於智慧手環與手機對我們的生理機能監控，<br>利用穿戴式裝置與移動裝置所提供的資料，跳脫出一般大眾<br>與來監測健身狀況的思考框架，從睡眠、心率狀況著手研究<br>與設計，配合PVT專注力測試，利用雲端運算、物聯網、<br>大數據運算等多樣技術，設計出一套監控駕駛精神與疲勞的<br>管理系統。";
+        }
+        function wish() {
+            document.getElementById("context").innerHTML = "	為運輸產業設計一套管理系統<br>	顧及  企業、駕駛、一般民眾三個面向<br>	網頁管理功能<br>	行動APP<br>	IoT即時顯示駕駛狀態<br>	視覺化界面，降低管理難度\n\
+        <br>	優化駕駛人工作環境，降低車禍風險與經濟損失<br>	提高顧客滿意忠誠度，提升企業形象與商譽<br>	善盡社會責任，創造三贏局面";
+        }
+
+        $(function () {
+            $("#dialogg").dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            });
+
+            $("#opener").on("click", function () {
+                $("#dialogg").dialog("open");
+            });
+        });
+
+    </script>
+    <body   onload="setInterval(SelectCon, 5000);"style="background-color: rgb(226, 226, 226);">
+
+        <div id="menu">
+            <ul>
+                <li value="#logo">HOME</li>
+                <li value="#about">ABOUT</li>
+                <li value="#sign">SIGN</li>
+                <li value="#contact">CONTACT</li>
+            </ul>
+        </div>
+        <div id="logo">
+            <img id="logopic" src="images/logo.png" />
+            <p style="margin-top:100px">
+                Watchmen- 企業雲端疲勞監控系統
+                <br />打造安全工作環境
+                <br />建立良好企業形象
+                <br />善盡社會責任
+                <br />創造共榮社會
+            </p>
+        </div>
+        <div id="about">
+            <div id="box">
+                A B O U T
+                <img id="aboutlogo" src="images/about.png" style="margin-left:80px;" />
+            </div>
+            <p id="context" style="font-family: Microsoft JhengHei;margin-left:200px;margin-top:80px;">
+                疲勞駕駛乃當今社會一大安全隱憂，在台灣有超過三分之一<br>重大交通事故是由於駕駛員疲勞引起的，每年高達數千億元<br>損失。台灣身為一個公路發達，高度依賴公路運輸的社會，<br>卻始終缺乏一套管理旗下員工精神狀態的系統，以量化的數<br>據了進行判斷，導致社會身陷在疲勞駕駛的隱憂。因此本團<br>隊有了設計「雲端疲勞監控系統」這樣一個想法。
+            </p>
+            <div id="circlepos">
+                <a href="javascript:"style=" text-decoration:none ;color: inherit;"> <element  href="javascript:" onclick="purpose();"><p id="circle" style="margin-right:150px;margin-top:30px;"><p style="font-size: 30px;font-family: Microsoft JhengHei;left: 82.5%;margin-top:85px;position: absolute;z-index: 2;">概念</p>
+                        </p></element ></a>
+                <br>
+                <a href="javascript:"style=" text-decoration:none ;color: inherit;"> <element href="javascript:"  onclick="create();"><p id="circle" style="margin-right:150px;margin-top:30px;"><p style="font-size: 30px;font-family: Microsoft JhengHei;left: 81%;margin-top:250px;position: absolute;z-index: 2;">創意發想</p>
+                        </p></element ></a>
+                <br>
+                <a href="javascript:"style=" text-decoration:none ;color: inherit;"> <element   onclick="wish();"> <p id="circle" style="margin-right:150px;margin-top:30px;"><p style="font-size: 26px;font-family: Microsoft JhengHei;left: 80.5%;margin-top:420px;position: absolute;z-index: 2;">目的與展望</p>
+                        </p></element ></a>
+            </div>
+        </div>
+
+        <div id="sign">
+            <div id="pic">
+                <img id="road" src="images/road.png" />
+                <a  id="test1"data="紀錄配戴手環者的心率，取每分鐘的心跳數"><img id="sign1" src="images/sign1.png" /><a>
+                        <a  id="test2"data="紀錄配戴手環者的睡眠，取每分鐘的睡眠狀況"><img id="sign2" src="images/sign2.png" /><a>
+                                <a  id="test3"data="紀錄配戴手環者的專注力測試成績"><img id="sign3" src="images/sign3.png" /><a>
+
+                                        <img id="orangecar" src="images/orangecar.png" />
+                                        <img id="greenbus" src="images/greenbus.png" />
+                                        </div>
+                                        </div>
+                                        <div id="contact">
+                                            <table border="0" id="line"> 
+                                                <tr> 
+                                                    <td width=80% height="700"><img id="logopic1" src="images/logo.png" style="margin-botton: 150px;margin-left: 250px;"/> </td> 
+                                                </tr>
+                                            </table>
+                                            <img src="images/scared.png" style="position:absolute;z-index: 1;margin-top:130px;margin-left:30px;width: 55px;height:55px">
+                                            <img src="images/normal.png" style="position:absolute;z-index: 1;margin-top:330px;margin-left:30px;width: 55px;height:55px">
+                                            <img src="images/safe.png" style="position:absolute;z-index: 1;margin-top:530px;margin-left:30px;width: 55px;height:55px">
+                                            <img src="images/close.png" style="position:absolute;z-index: 1;margin-top:730px;margin-left:30px;width: 55px;height:55px">
+                                            
+                                            <div>
+                                                <img id="red" class="red0" src="images/red.png" style=" visibility:hidden;margin-top: 220px;margin-left:150px; "/>
+                                                <div class="red0" id="redname0" style=" visibility:hidden;margin-top: 210px;margin-left:750px;position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="red0" id="redpic0" onclick="redhtml(0)"  style="visibility:hidden" onclick="c(0)" href="home.html"><img class="red0" id="profilepic" src="images/profile.png" style=" margin-top: 100px;margin-left: 150px;"/></a>
+
+                                                <img class="red1" id="red" src="images/red.png" style="visibility:hidden; margin-top: 220px;margin-left:50px;"/>
+                                                <div class="red1"id="redname1" style="visibility:hidden; margin-top: 10px;margin-left:900px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="red1" id="redpic1"  onclick="redhtml(1)" style="visibility:hidden"  href="home.html"><img id="profilepic" src="images/profile.png" style=" margin-top: 100px;margin-left: 50px;"/></a>
+
+                                                <img  class="red2"id="red" src="images/red.png" style="visibility:hidden; margin-top: 220px;margin-left:50px;"/>
+                                                <div class="red2" id="redname2"style="visibility:hidden; margin-top: 10px;margin-left:1050px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="red2" id="redpic2" onclick="redhtml(2)"  style="visibility:hidden" href="home.html"><img id="profilepic" src="images/profile.png" style=" margin-top: 100px;margin-left: 50px;"/></a>
+
+                                                <img class="red3" id="red" src="images/red.png" style="visibility:hidden; margin-top: 220px;margin-left:50px;"/>
+                                                <div class="red3" id="redname3"style="visibility:hidden; margin-top: 10px;margin-left:1200px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="red3"id="redpic3" onclick="yellowhtml(3)"   style="visibility:hidden" href="home.html"><img id="profilepic" src="images/profile.png" style=" margin-top: 100px;margin-left: 50px;"/></a>
+
+                                                <img class="red4" id="red" src="images/red.png" style="visibility:hidden; margin-top: 220px;margin-left:50px;"/>
+                                                <div class="red4" id="redname4"style="visibility:hidden; margin-top: 10px;margin-left:1350px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="red4" id="redpic4" onclick="redhtml(4)"  style="visibility:hidden"  href="home.html"><img id="profilepic" src="images/profile.png" style="margin-top: 100px;margin-left: 50px;"/></a>
+
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <img id="yellow" class="yellow0" src="images/yellow.png" style="visibility:hidden; margin-top: 205px;margin-left:150px;"/>
+                                                <div class="yellow0" id="yellowname0" style="visibility:hidden; margin-top: 195px;margin-left:750px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a  href="#;" class="yellow0"  id="yellowpic0" onclick="yellowhtml(0)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style="margin-top: 85px;margin-left: 150px;"/></a>
+
+                                                <img id="yellow" class="yellow1"src="images/yellow.png" style="visibility:hidden;margin-top: 205px;margin-left:50px;"/>
+                                                <div class="yellow1"  id="yellowname1" style="visibility:hidden;margin-top: 10px;margin-left:900px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="yellow1"id="yellowpic1" onclick="yellowhtml(1)" style="visibility:hidden"  href="home.html"><img id="profilepic" src="images/profile.png" style="margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="yellow" class="yellow2"src="images/yellow.png" style="visibility:hidden;margin-top: 205px;margin-left:50px;"/>
+                                                <div class="yellow2"  id="yellowname2" style="visibility:hidden;margin-top: 10px;margin-left:1050px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="yellow2" id="yellowpic2" onclick="yellowhtml(2)" style="visibility:hidden"   href="home.html"><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="yellow" class="yellow3" src="images/yellow.png" style="visibility:hidden;margin-top: 205px;margin-left:50px;"/>
+                                                <div  class="yellow3"  id="yellowname3" style="visibility:hidden;margin-top: 10px;margin-left:1200px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a  href="#;" class="yellow3" id="yellowpic3" onclick="yellowhtml(3)" style="visibility:hidden"href="home.html"><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="yellow" class="yellow4" src="images/yellow.png" style="visibility:hidden;margin-top: 205px;margin-left:50px;"/>
+                                                <div class="yellow4"  id="yellowname4" style="visibility:hidden;margin-top: 10px;margin-left:1350px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="yellow4" id="yellowpic4" onclick="yellowhtml(4)" style="visibility:hidden"  href="home.html"><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <img id="green" class="green0" src="images/green.png" style="visibility:hidden; margin-top: 205px;margin-left:150px;"/>
+                                                <div class="green0" id="greenname0" style="visibility:hidden; margin-top: 195px;margin-left:750px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="green0" id="greenpic0"  onclick="greenhtml(0)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style="margin-top: 85px;margin-left: 150px;"/></a>
+
+                                                <img id="green" class="green1" src="images/green.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="green1"  id="greenname1"style="visibility:hidden; margin-top: 10px;margin-left:900px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;"  class="green1"id="greenpic1"  onclick="greenhtml(1)" style="visibility:hidden"  ><img id="profilepic" src="images/profile.png" style="margin-top: 85x;margin-left: 50px;"/></a>
+
+                                                <img id="green" class="green2"src="images/green.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="green2"  id="greenname2" style="visibility:hidden; margin-top: 10px;margin-left:1050px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="green2" id="greenpic2"  onclick="greenhtml(2)" style="visibility:hidden"  ><img id="profilepic" src="images/profile.png" style="margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="green" class="green3" src="images/green.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="green3"  id="greenname3"style="visibility:hidden; margin-top: 10px;margin-left:1200px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="green3"id="greenpic3"  onclick="greenhtml(3)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="green" class="green4" src="images/green.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="green4" id="greenname4" style="visibility:hidden; margin-top: 10px;margin-left:1350px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="green4" id="greenpic4"  onclick="greenhtml(4)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <img id="dark" class="dark0" src="images/dark.png" style="visibility:hidden; margin-top: 205px;margin-left:150px;"/>
+                                                <div class="dark0" id="darkname0" style="visibility:hidden; margin-top: 195px;margin-left:750px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="dark0" id="darkpic"  onclick="greyhtml(0)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style="margin-top: 85px;margin-left: 150px;"/></a>
+
+                                                <img id="dark" class="dark1" src="images/dark.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="dark1"  id="darkname1"style="visibility:hidden; margin-top: 10px;margin-left:900px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;"  class="dark1"id="darkpic1"  onclick="greyhtml(1)" style="visibility:hidden"  ><img id="profilepic" src="images/profile.png" style="margin-top: 85x;margin-left: 50px;"/></a>
+
+                                                <img id="dark" class="dark2"src="images/dark.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="dark2"  id="darkname2" style="visibility:hidden; margin-top: 10px;margin-left:1050px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="dark2" id="darkpic2"  onclick="greyhtml(2)" style="visibility:hidden"  ><img id="profilepic" src="images/profile.png" style="margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="dark" class="dark3" src="images/dark.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="dark3"  id="darkname3"style="visibility:hidden; margin-top: 10px;margin-left:1200px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="dark3"id="darkpic3"  onclick="greyhtml(3)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                                <img id="dark" class="dark4" src="images/dark.png" style="visibility:hidden; margin-top: 205px;margin-left:50px;"/>
+                                                <div class="dark4" id="darkname4" style="visibility:hidden; margin-top: 10px;margin-left:1350px; position: absolute;z-index: 2;font-family: Microsoft JhengHei;font-size: 20px;"></div>
+                                                <a href="#;" class="dark4" id="darkpic4"  onclick="greyhtml(4)" style="visibility:hidden" ><img id="profilepic" src="images/profile.png" style=" margin-top: 85px;margin-left: 50px;"/></a>
+
+                                            </div>
+                                        </div>
+                                        <script>
+
+
+
+
+                                        </script>  
+                                        </body>
+
+                                        </html>

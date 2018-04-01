@@ -1,0 +1,35 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2017/2/8, 下午 09:38:28
+    Author     : Yang
+*/
+.container{
+    height:450px;
+}
+.container2{
+    height:500px;
+}
+.getdata{
+   float:left;
+   width:40%
+}
+.fitbitget{
+    hight:200px;
+}
+.uniplatselect{
+    
+    hight:200px;
+}
+.selectdata{
+   float:right;
+   width:60%
+}
+.datatype{
+    width:80%;
+    height:200px;
+    overflow:auto;
+}

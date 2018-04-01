@@ -1,0 +1,162 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2017/2/8, 下午 07:22:11
+    Author     : Yang
+*/
+.styled-select {
+    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+    height: 29px;
+    overflow: hidden;
+    width: 240px;
+}
+select#choose {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 30px;
+    width: 240px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#779126, #779126 40%, #779126);
+    background-color: #779126;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+select#sumtype {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 30px;
+    width: 240px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#83a810, #83a810 40%, #83a810);
+    background-color: #83a810;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+select#day {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 30px;
+    width: 240px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#83a810, #83a810 40%, #83a810);
+    background-color: #83a810;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+select#actid {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 25px;
+    width: 200px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#1f211c, #1f211c 40%, #1f211c);
+    background-color: #1f211c;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+select#user {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 25px;
+    width: 300px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#1f211c, #1f211c 40%, #1f211c);
+    background-color: #1f211c;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+select#user2 {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 25px;
+    width: 300px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#1f211c, #1f211c 40%, #1f211c);
+    background-color: #1f211c;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+select#table {
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    color: #fff;
+    height: 30px;
+    width: 240px;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png) -webkit-linear-gradient(#1a2e56, #1a2e56 40%, #1a2e56);
+    background-color: #1a2e56;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+input[type="text"]{
+    padding:5px 15px; border:2px black solid;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+input[type="button"]{
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    padding:5px 15px; background:#ccc; border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+option
+{
+    font-family: Arial;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 9px;
+    
+}
